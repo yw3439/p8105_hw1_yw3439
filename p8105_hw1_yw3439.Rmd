@@ -33,5 +33,36 @@ mean_frame = tibble(
 )
 
 ```
+  In the data frame x, sample_x is numeric containing random numbers from a standard distribution. logi_vec contains boolean statements from identifying if the vector in sample_x is bigger than 0. subj_char consists of subjects as character vectors. county_fac has 10 vectors with 3 different factor levels "Manhattan", "Queen" and "Bronx". While taking the mean for each variable, there is a warning coming up showing that argument is not numeric or logical so that returning NA. Shown in the data frame of mean_frame, only sample_x and logi_vec show mean results but not subj_char and county_fac, because vectors in subj_vec are characters and in county_fac are factors, which both cannot be applied with the mean function.
+  
+```{r, include=False}
+
+frame_x %>%
+  mutate(
+    logi_vec = as.numeric(logi_vec),
+    subj_char = as.numeric(subj_char),
+    county_fac = as.numeric(county_fac)
+  )
+
+```
+  
+
+
+
+```{r}
+
+frame_x %>%
+  mutate(
+    num_logi = (as.numeric(logi_vec))*sample_x,
+    fac_logi = (as.factor(logi_vec))*sample_x,
+    num_fac_logi = (as.factor(as.numeric(logi_vec)))*sample_x
+  )
+
+```
+
+
+
+
+
 
 
