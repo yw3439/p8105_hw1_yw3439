@@ -35,7 +35,7 @@ mean_frame = tibble(
 ```
   In the data frame x, sample_x is numeric containing random numbers from a standard distribution. logi_vec contains boolean statements from identifying if the vector in sample_x is bigger than 0. subj_char consists of subjects as character vectors. county_fac has 10 vectors with 3 different factor levels "Manhattan", "Queen" and "Bronx". While taking the mean for each variable, there is a warning coming up showing that argument is not numeric or logical so that returning NA. Shown in the data frame of mean_frame, only sample_x and logi_vec show mean results but not subj_char and county_fac, because vectors in subj_vec are characters and in county_fac are factors, which both cannot be applied with the mean function.
   
-```{r, include=False}
+```{r, eval=False}
 
 frame_x %>%
   mutate(
@@ -44,23 +44,36 @@ frame_x %>%
     county_fac = as.numeric(county_fac)
   )
 
-```
-  
+mean_frame_2 = tibble(
+  mean_sample = mean(pull(frame_x, sample_x)),
+  mean_logi = mean(pull(frame_x, logi_vec)),
+  mean_char = mean(pull(frame_x, subj_char), na.rm = False),
+  mean_fac = mean(pull(frame_x, county_fac), na.rm = False)
+)
 
+```
+  After using the as.numeric function, while applying the mean function with all four variables, there is no any warning popping out anymore. That is because that vectors in all four variables change into double vectors by as.numeric, allowing four variables to be able to calculate the mean through the same function used before.
 
 
 ```{r}
 
-frame_x %>%
+frame_x_logi = frame_x %>%
   mutate(
     num_logi = (as.numeric(logi_vec))*sample_x,
-    fac_logi = (as.factor(logi_vec))*sample_x,
-    num_fac_logi = (as.factor(as.numeric(logi_vec)))*sample_x
-  )
+    fac_logi = as.factor(logi_vec)*sample_x,
+    num_fac_logi = (as.numeric(as.factor(logi_vec)))*sample_x
+  ) %>%
+  select(num_logi, fac_logi, num_fac_logi)
 
 ```
+  Using as.numeric function for logi_vec changes the original boolean into numeric vectors that allows further calculation with sample_x. While using as.factor function for logi_vec, boolean changes from boolean into factors which are still not applicable for the numeric calculation. However, after using as.numeric for changing the factors into the numeric type, vectors now in fac_logi are able to apply for the mathematical calculation with sample_x.
+  
 
 
+  
+  
+  
+  
 
 
 
