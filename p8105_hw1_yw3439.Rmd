@@ -1,0 +1,37 @@
+---
+title: "p8105_hw1_yw3439"
+author: "Qetsiyah Wang"
+date: "9/17/2020"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(dplyr)
+```
+
+## Problem.1 - Data frome and Variable
+```{r}
+
+frame_x = tibble(
+  sample_x = rnorm(10),
+  logi_vec = sample_x > 0,
+  subj_char = c("math", "english", "history", "chinese", "science", "biology", 
+               "politics", "geography", "physics", "chemistry"),
+  county_fac = as.factor(c("Manhattan","Manhattan","Manhattan","Manhattan", 
+                        "Queen", "Queen", "Queen",
+                        "Bronx", "Bronx", "Bronx"))
+)
+
+mean_frame = tibble(
+  mean_sample = mean(pull(frame_x, sample_x)),
+  mean_logi = mean(pull(frame_x, logi_vec)),
+  mean_char = mean(pull(frame_x, subj_char)),
+  mean_fac = mean(pull(frame_x, county_fac))
+)
+
+```
+
+
