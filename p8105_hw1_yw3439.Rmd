@@ -25,15 +25,15 @@ frame_x = tibble(
                         "Bronx", "Bronx", "Bronx"))
 )
 
-mean_frame = tibble(
-  mean_sample = mean(pull(frame_x, sample_x)),
-  mean_logi = mean(pull(frame_x, logi_vec)),
-  mean_char = mean(pull(frame_x, subj_char)),
-  mean_fac = mean(pull(frame_x, county_fac))
-)
+mean_sample = mean(pull(frame_x, sample_x))
+mean_logi = mean(pull(frame_x, logi_vec))
+mean_char = mean(pull(frame_x, subj_char))
+mean_fac = mean(pull(frame_x, county_fac))
+
+knitr::kable(frame_x)
 
 ```
-  In the data frame x, sample_x is numeric containing random numbers from a standard distribution. logi_vec contains boolean statements from identifying if the vector in sample_x is bigger than 0. subj_char consists of subjects as character vectors. county_fac has 10 vectors with 3 different factor levels "Manhattan", "Queen" and "Bronx". While taking the mean for each variable, there is a warning coming up showing that argument is not numeric or logical so that returning NA. Shown in the data frame of mean_frame, only sample_x and logi_vec show mean results but not subj_char and county_fac, because vectors in subj_vec are characters and in county_fac are factors, which both cannot be applied with the mean function.
+  In the data frame x, sample_x is numeric containing random numbers from a standard distribution. logi_vec contains boolean statements from identifying if the vector in sample_x is bigger than 0. subj_char consists of subjects as character vectors. county_fac has 10 vectors with 3 different factor levels "Manhattan", "Queen" and "Bronx". While taking the mean for each variable, there is a warning coming up showing that argument is not numeric or logical so that returning NA. Only sample_x and logi_vec have mean results but not subj_char and county_fac, because vectors in subj_vec are characters and in county_fac are factors, which both cannot be applied with the mean function.
   
 ```{r, eval=FALSE}
 
@@ -44,12 +44,10 @@ frame_x %>%
     county_fac = as.numeric(county_fac)
   )
 
-mean_frame_2 = tibble(
-  mean_sample = mean(pull(frame_x, sample_x)),
-  mean_logi = mean(pull(frame_x, logi_vec)),
-  mean_char = mean(pull(frame_x, subj_char), na.rm = False),
-  mean_fac = mean(pull(frame_x, county_fac), na.rm = False)
-)
+mean_sample = mean(pull(frame_x, sample_x))
+mean_logi = mean(pull(frame_x, logi_vec))
+mean_char = mean(pull(frame_x, subj_char))
+mean_fac = mean(pull(frame_x, county_fac))
 
 ```
   After using the as.numeric function, while applying the mean function with all four variables, there is no any warning popping out anymore. That is because that vectors in all four variables change into double vectors by as.numeric, allowing four variables to be able to calculate the mean through the same function used before.
@@ -65,15 +63,18 @@ frame_x_logi = frame_x %>%
   ) %>%
   select(num_logi, fac_logi, num_fac_logi)
 
+knitr::kable(frame_x_logi)
+
 ```
   Using as.numeric function for logi_vec changes the original boolean into numeric vectors that allows further calculation with sample_x. While using as.factor function for logi_vec, boolean changes from boolean into factors which are still not applicable for the numeric calculation. However, after using as.numeric for changing the factors into the numeric type, vectors now in fac_logi are able to apply for the mathematical calculation with sample_x.
   
+## Problem. 2 - Penguins   
 ```{r}
 
 data("penguins", package = "palmerpenguins")
 
 ```
-  The dataset "penguins" contained `r ncol(penguins)` variables and `r nrow(penguins)` observations. The dataset describes different features of penguins, including their `r names(penguins)`. The whole dataset contains `r nlevels(pull(penguins, species))` types of penguins, `r levels(pull(penguins, species))`. They are from  different islands, `r levels(pull(penguins, island))`. The bill length ranges from `r min(pull(penguins, bill_length_mm), na.rm = TRUE)`mm to `r max(pull(penguins, bill_length_mm), na.rm = TRUE)` mm. The body mass ranges from `r min(pull(penguins, body_mass_g, na.rm = TRUE)`g to `r max(pull(penguins, body_mass_g), na.rm = TRUE)` g. The mean of the flipper length is `r mean(pull(penguins, flipper_length_mm)` mm.
+  The dataset "penguins" contained `r ncol(penguins)` variables and `r nrow(penguins)` observations. The dataset describes different features of penguins, including their `r names(penguins)`. The whole dataset contains `r nlevels(pull(penguins, species))` types of penguins, `r levels(pull(penguins, species))`. They are from  different islands, `r levels(pull(penguins, island))`. The bill length ranges from `r min(pull(penguins, bill_length_mm), na.rm = TRUE)` mm to `r max(pull(penguins, bill_length_mm), na.rm = TRUE)` mm. The body mass ranges from `r min(pull(penguins, body_mass_g), na.rm = TRUE)` g to `r max(pull(penguins, body_mass_g), na.rm = TRUE)` g. The mean of the flipper length is `r mean(pull(penguins, flipper_length_mm), na.rm = TRUE)` mm.
 
 ```{r}
 
